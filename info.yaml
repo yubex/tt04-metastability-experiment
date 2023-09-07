@@ -23,15 +23,26 @@ documentation:
   author:       "yubex"      # Your name
   title:        "metastability experiment"      # Project title
   language:     "Verilog" # other examples include Verilog, Amaranth, VHDL, etc
-  description:  "The design purpose is to evaluate if metastability can be used as a true random number generator source in an ASIC design."      # Short description of what your project does
+  description:  "The design purpose is to evaluate, if metastability can be used as a true random number generator source in an ASIC design."      # Short description of what your project does
 
 # Longer description of how the project works. You can use standard markdown format.
   how_it_works: |
-      Explain how your project works
+      Generally a Flip Flop can enter a metastable state if the setup or hold time is violated. In this design I try to reach this usually unwanted behaviour.  
+      A toggle Flip Flop is used to create edges on the data inputs of the other 2 Flip Flops. There are 2 modes: Manual and Auto. Manual mode uses the switch on the PCB as trigger for one edge. 
+      Auto mode generates a cyclic trigger within the ASIC. The data output of the toggle Flip Flop is connected to the next Flip Flop by a programmable delay line. 
+      The delay line is created by pairs of inverters. The verilog keep attribute is necessary here, to avoid optimization during synthesis. 
+      The delay_ctrl input selects the number of inverters which are used as delay. The number of inverters used is the delay_ctrl input value times 2. If you set delay_ctrl to 1, 2 inverters are used. 
+      The maximum number of inverters is 128. After each state change of the toggle Flip Flop (exactly 3 clock cycles after that) the output of all Flip Flops are compared. 
+      In case the states are different, metastability has occured.
+      
+      
 
 # Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
   how_to_test:  |
-      Explain how to test your project
+      For testing select the mode you want to try out. Set the mode to 0 for auto mode and to 1 for manual mode.
+      You can experiment with delay_ctrl input an try to produce metastability. Also try different clock frequency's.
+      In case of metastability the dot of the 7 segment display should change its state.
+
 
 # A description of what the inputs do (e.g. red button, SPI CLK, SPI MOSI, etc).
   inputs:               
@@ -45,14 +56,14 @@ documentation:
     - delay_ctrl[5]
 # A description of what the outputs do (e.g. status LED, SPI MISO, etc)
   outputs:
-    - segment a
-    - segment b
-    - segment c
-    - segment d
-    - segment e
-    - segment f
-    - segment g
-    - dot
+    - segment a, mode
+    - segment b, toggle_dff_en
+    - segment c, toggle_dff
+    - segment d, delayed_toggle_dff
+    - segment e, meta_dff_0
+    - segment f, meta_dff_1
+    - segment g, toggle_dff_en_3t
+    - dot, meta_err_detected
 # A description of what the bidirectional I/O pins do (e.g. I2C SDA, I2C SCL, etc)
   bidirectional:
     - none
@@ -69,5 +80,5 @@ documentation:
   external_hw:  "none"      # Describe any external hardware needed
   discord:      ""      # Your discord handle, used for communication and automatically assigning tapeout role after a submission
   doc_link:     ""      # URL to longer form documentation, eg the README.md in your repository
-  clock_hz:     0       # Clock frequency in Hz (if required)
-  picture:      ""      # relative path to a picture in your repository (must be 512kb or less)
+  clock_hz:     try various       # Clock frequency in Hz (if required)
+  picture:      "metastability_experiment.svg"      # relative path to a picture in your repository (must be 512kb or less)
