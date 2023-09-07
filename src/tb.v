@@ -41,7 +41,7 @@ module tb (
 		# 500000;
 		trigger  <= 1'b1;
 		# 6100;
-        trigger  <= 1'b0;
+		trigger  <= 1'b0;
 		# 50000;        
 		trigger  <= 1'b1;
 		# 500000; 
