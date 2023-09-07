@@ -34,8 +34,10 @@ module tt_um_yubex_metastability_experiment (
     
     reg toggle_dff;
     reg toggle_dff_en, toggle_dff_en_1t, toggle_dff_en_2t, toggle_dff_en_3t;
-    (* keep *) wire [128:0] prog_delay;
-    (* keep *) wire delayed_toggle_dff;
+    wire [128:0] prog_delay;
+    wire delayed_toggle_dff;
+    //(* keep *) wire [128:0] prog_delay;
+    //(* keep *) wire delayed_toggle_dff;
 
     reg meta_dff_0, meta_dff_1;
     reg meta_err_detected;
