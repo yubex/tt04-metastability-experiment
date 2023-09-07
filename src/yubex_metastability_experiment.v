@@ -15,7 +15,8 @@ module tt_um_yubex_metastability_experiment (
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
 );
-  
+
+	
     wire rst;
     wire trigger;
     wire mode;
@@ -25,6 +26,8 @@ module tt_um_yubex_metastability_experiment (
     assign trigger    = ui_in[0];
     assign mode       = ui_in[1];
     assign delay_ctrl = ui_in[7:2];
+    assign uio_out = 8'bzzzzzzzz;
+    assign uio_oe = 8'h00;
 
     localparam trigger_sr_size = 32;
     reg [trigger_sr_size-1:0] trigger_sr;
